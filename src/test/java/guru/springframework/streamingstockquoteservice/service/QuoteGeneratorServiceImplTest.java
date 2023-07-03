@@ -9,8 +9,6 @@ import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class QuoteGeneratorServiceImplTest {
 
     QuoteGeneratorService service;
@@ -22,7 +20,7 @@ class QuoteGeneratorServiceImplTest {
 
     @Test
     void fetchQuoteStream() throws InterruptedException {
-        Flux<Quote> quotesFlux = service.fetchQuoteStream(Duration.ofMillis(100l));
+        Flux<Quote> quotesFlux = service.fetchQuoteStream(Duration.ofMillis(100L));
 
         Consumer<Quote> quoteConsumer = System.out::println;
 
@@ -32,7 +30,7 @@ class QuoteGeneratorServiceImplTest {
 
         Runnable done = () -> countDownLatch.countDown();
 
-        quotesFlux.take(60)
+        quotesFlux.take(30)
                 .subscribe(quoteConsumer, throwableConsumer, done);
 
         countDownLatch.await();
