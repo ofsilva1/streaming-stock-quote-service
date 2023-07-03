@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 
+import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.Duration;
 import java.time.Instant;
@@ -53,5 +54,11 @@ public class QuoteGeneratorServiceImpl implements QuoteGeneratorService {
                     return quote;
                 })
                 .log("guru.springframework.service.QuoteGeneratorService");
+    }
+
+    private Quote updateQuote(Quote quote) {
+        BigDecimal priceChange = quote.getPrice()
+                .multiply(new BigDecimal(0.05 * this.random.nextDouble()), this.mathContext);
+        return new Quote(quote.getTicker(), quote.getPrice().add(priceChange));
     }
 }
